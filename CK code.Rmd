@@ -1,0 +1,45 @@
+---
+title: "ANA 515 Assignment 1"
+author: "Clarentia Kurnia"
+date: "3/26/2022"
+output:
+ html_document:
+   theme:
+     bootswatch: darkly
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(bslib)
+
+#Get the data
+file<-'https://raw.githubusercontent.com/fivethirtyeight/guns-data/master/full_data.csv'
+gun_deaths <- read.csv(file)
+```
+
+```{r include=FALSE}
+youth <- gun_deaths %>%
+  filter(age <= 65)
+
+```
+
+```{r include=FALSE}
+summary (youth)
+```
+#Gun deaths by age
+```{r youth-dist, echo=FALSE}
+youth %>%
+ggplot(aes(age)) +
+geom_freqpoly(binwidth = 1)
+```
+#Gun deaths by race
+```{r race-dist, echo= FALSE} 
+youth %>% 
+ggplot(aes(fct_infreq(race) %>% fct_rev())) + 
+geom_bar() + coord_flip() + 
+labs(x = "Victim race") 
+```
